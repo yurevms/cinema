@@ -1,0 +1,5 @@
+INSERT INTO films (title, genre, director, duration, cover_image)
+VALUES
+('Фильм1', 'Жанр1', 'Режиссёр1', 142, 'film1.png'),
+('Фильм2', 'Жанр2', 'Режиссёр1', 152, 'film2.png'),
+('Фильм3', 'Жанр3', 'Режиссёр1', 148, 'film3.png');

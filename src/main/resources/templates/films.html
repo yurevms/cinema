@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список фильмов</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Подключение стилей -->
+</head>
+<body>
+<header>
+    <h1>Кинотеатр</h1>
+    <nav>
+        <a href="/login">Войти</a>
+        <a href="/registration">Регистрация</a>
+        <a href="/films/add">Добавить фильм</a>
+    </nav>
+</header>
+<main>
+    <section>
+        <h2>Список фильмов</h2>
+        <div class="movies-list">
+            <!-- Использование Thymeleaf для динамического вывода фильмов -->
+            <ul>
+                <li th:each="film : ${films}">
+                    <h3 th:text="${film.title}">Название фильма</h3>
+                    <p th:text="'Режиссер: ' + ${film.director}">Режиссер фильма</p>
+                    <p th:text="'Жанр: ' + ${film.genre}">Жанр фильма</p>
+                    <p th:text="'Продолжительность: ' + ${film.duration} + ' мин.'">Продолжительность фильма</p>
+                    <img th:onclick="|window.location.href='/session/' + ${film.id}|" th:src="@{'/img/' + ${film.cover_image}}" alt="{{film.title}}" style="width: 100px; height: auto;" />
+                    <!-- Ссылка для удаления фильма -->
+                    <form th:action="@{/films/delete/{id}(id=${film.getId()})}" method="POST">
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </section>
+</main>
+<footer>
+    <p>© 2024 Кинотеатр. Все права защищены.</p>
+</footer>
+</body>
+</html>

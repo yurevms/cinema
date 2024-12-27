@@ -1,0 +1,39 @@
+.dates-slider {
+    display: flex;
+    overflow-x: scroll;
+    padding: 10px;
+}
+
+.dates-slider ul {
+    display: flex;
+    list-style: none;
+}
+
+.dates-slider li {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.film-details {
+    display: flex;
+    align-items: center;
+}
+
+.film-image {
+    width: 200px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.session-time-btn {
+    margin: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.session-time-btn:hover {
+    background-color: #45a049;
+}

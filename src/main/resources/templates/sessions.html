@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сеансы фильма</title>
+    <link rel="stylesheet" href="/css/sessions.css">
+</head>
+<body>
+<header>
+    <h1 th:text="'Сеансы фильма: ' + ${film.title}"></h1>
+    <nav>
+        <a href="/login">Войти</a>
+        <a href="/registration">Регистрация</a>
+        <a href="/films">Главная</a>
+    </nav>
+</header>
+
+<section id="sessions">
+
+    <div>
+            <img th:src="@{'/img/' + ${film.cover_image}}" alt="Постер фильма" class="film-image">
+            <div>
+                <ul>
+                    <li th:text="'Жанр - ' + ${film.genre}"></li>
+                    <li th:text="'Режиссёр - ' + ${film.director}"></li>
+                    <li th:text="'Длительность - ' + ${film.duration} + ' минут'"></li>
+                </ul>
+            </div>
+    </div>
+    <div class="session-dates">
+        <h2>Даты сеансов</h2>
+        <div class="dates-slider">
+            <ul th:each="sessionItem : ${sessions}">
+                <li th:text="${sessionItem.formattedDate}"></li>
+            </ul>
+        </div>
+        <div class="dates-slider">
+            <ul th:each="sessionItem : ${sessions}">
+                    <button th:onclick="|window.location.href='/payment/' + ${sessionItem.id}|" class="session-time-btn">
+                            <span th:text="${sessionItem.startTime}"></span>
+                    </button>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2024 Кинотеатр. Все права защищены.</p>
+</footer>
+</body>
+</html>
