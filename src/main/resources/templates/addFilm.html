@@ -1,35 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить фильм</title>
+    <link rel="stylesheet" href="/css/filmAdd.css"> <!-- Подключение стилей -->
 </head>
 <body>
+
 <header>
-    <h1>Добавлние фильма</h1>
+    <h1>Добавление фильма</h1>
     <nav>
-        <a href="/films">Главная</a>
+        <a href="javascript:history.back()">Главная</a>
     </nav>
 </header>
 
-<form action="/films/add" method="post" enctype="multipart/form-data">
-    <label for="title">Название фильма:</label>
-    <input type="text" id="title" name="title" required><br><br>
+<main>
+    <form action="/films/add" method="post" enctype="multipart/form-data">
+        <label for="title">Название фильма:</label>
+        <input type="text" id="title" name="title" required><br>
 
-    <label for="director">Режиссёр:</label>
-    <input type="text" id="director" name="director" required><br><br>
+        <label for="director">Режиссёр:</label>
+        <input type="text" id="director" name="director" required><br>
 
-    <label for="genre">Жанр:</label>
-    <input type="text" id="genre" name="genre" required><br><br>
+        <label for="genre">Жанр:</label>
+        <input type="text" id="genre" name="genre" required><br>
 
-    <label for="duration">Продолжительность (в минутах):</label>
-    <input type="number" id="duration" name="duration" required><br><br>
+        <label for="description">Описание фильма:</label>
+        <textarea id="description" name="description" rows="4" required></textarea><br>
 
-    <label for="photo">Изображение:</label>
-    <input type="file" id="photo" name="photo" accept="image/*"><br><br>
+        <label for="duration">Продолжительность (в минутах):</label>
+        <input type="number" id="duration" name="duration" required><br>
 
-    <button type="submit">Добавить фильм</button>
-</form>
+        <label for="photo">Изображение:</label>
+        <input type="file" id="photo" name="photo" accept="image/*"><br>
+
+        <button type="submit">Добавить фильм</button>
+    </form>
+</main>
+
+<footer>
+    <p>&copy; 2024 Кинотеатр. Все права защищены.</p>
+</footer>
+
 </body>
 </html>

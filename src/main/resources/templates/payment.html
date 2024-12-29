@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата билета</title>
+    <link rel="stylesheet" href="/css/payment.css">
+</head>
+<body>
+<header>
+    <h1 th:text="'Оплата билета на фильм: ' + ${film.title}"></h1>
+    <nav>
+        <a href="/films">Главная</a>
+        <a href="javascript:history.back()">Назад к сеансам фильма</a>
+    </nav>
+</header>
+<section>
+    <p th:text="'Дата: ' + ${formattedDate}"></p>
+    <p th:text="'Время: ' + ${sessionItem.startTime}"></p>
+    <p th:text="'К оплате: ' + ${sessionItem.ticketPrice} + ' руб.'"></p>
+    <form th:action="@{/payment/complete}" method="post">
+        <input type="hidden" th:value="${sessionItem.id}" name="sessionId">
+        <label for="userId">Введите ID пользователя:</label>
+        <input type="number" id="userId" name="userId" required>
+        <button type="submit">Оплатить</button>
+    </form>
+</section>
+<footer>
+    <p>&copy; 2024 Кинотеатр. Все права защищены.</p>
+</footer>
+</body>
+</html>

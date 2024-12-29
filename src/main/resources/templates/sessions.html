@@ -13,34 +13,50 @@
         <a href="/login">Войти</a>
         <a href="/registration">Регистрация</a>
         <a href="/films">Главная</a>
+        <a href="/session/add">Добавить сеанс</a>
+
     </nav>
 </header>
 
 <section id="sessions">
-
-    <div>
-            <img th:src="@{'/img/' + ${film.cover_image}}" alt="Постер фильма" class="film-image">
-            <div>
-                <ul>
-                    <li th:text="'Жанр - ' + ${film.genre}"></li>
-                    <li th:text="'Режиссёр - ' + ${film.director}"></li>
-                    <li th:text="'Длительность - ' + ${film.duration} + ' минут'"></li>
-                </ul>
-            </div>
-    </div>
-    <div class="session-dates">
-        <h2>Даты сеансов</h2>
-        <div class="dates-slider">
-            <ul th:each="sessionItem : ${sessions}">
-                <li th:text="${sessionItem.formattedDate}"></li>
+    <!-- Информация о фильме -->
+    <div class="film-info">
+        <img th:src="@{'/img/' + ${film.cover_image}}" alt="Постер фильма" class="film-image">
+        <div>
+            <h2 th:text="${film.title}">Название фильма</h2>
+            <ul>
+                <li th:text="'Жанр: ' + ${film.genre}"></li>
+                <li th:text="'Режиссёр: ' + ${film.director}"></li>
+                <li th:text="'Описание: ' + ${film.description}"></li>
+                <li th:text="'Длительность: ' + ${film.duration} + ' минут'"></li>
             </ul>
         </div>
-        <div class="dates-slider">
-            <ul th:each="sessionItem : ${sessions}">
-                    <button th:onclick="|window.location.href='/payment/' + ${sessionItem.id}|" class="session-time-btn">
-                            <span th:text="${sessionItem.startTime}"></span>
-                    </button>
-            </ul>
+    </div>
+
+    <!-- Даты сеансов -->
+    <div class="session-dates">
+        <h2>Даты сеансов</h2>
+
+        <!-- Группируем сеансы по датам -->
+        <div th:each="entry : ${sessionsByDate}">
+            <div class="session-date-time">
+                <h3 th:text="${entry.key}">Дата сеанса</h3>
+                <div class="dates">
+                    <!-- Для каждой сессии на эту дату отображаем кнопку -->
+                    <ul>
+                        <li th:each="sessionItem : ${entry.value}">
+                            <button th:onclick="|window.location.href='/payment/' + ${sessionItem.id}|" class="session-time-btn">
+                                <span th:text="${sessionItem.startTime}"></span>
+                            </button>
+
+                            <form th:action="@{/session/{filmId}/{sessionId}/delete(filmId=${film.id}, sessionId=${sessionItem.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="delete-session-btn">Удалить</button>
+                            </form>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -14,5 +14,7 @@ public interface FilmService {
 
     Film getFilmById(Long id);
     List<Film> getAllFilms();
+
+    @Transactional
     void deleteFilmById(Long id);
 }

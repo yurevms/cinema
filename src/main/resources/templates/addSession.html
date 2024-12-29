@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить сессию</title>
+    <link rel="stylesheet" href="/css/filmAdd.css"> <!-- Подключение стилей -->
+</head>
+<body>
+
+<header>
+    <h1>Добавление сессии для фильма</h1>
+    <nav>
+        <a href="/films">Главная</a>
+        <a href="javascript:history.back()">Назад к сеансам фильма</a>
+    </nav>
+</header>
+
+<main>
+    <form action="/session/add" method="post">
+
+        <label for="filmID">ID фильма:</label>
+        <input type="number" id="filmID" name="filmID" required><br>
+
+        <!-- Поле для даты и времени (формат "YYYY-MM-DDTHH:mm") -->
+        <label for="date">Дата и время начала сеанса:</label>
+        <input type="datetime-local" id="date" name="date" required><br>
+
+        <!-- Поле для времени (формат "HH:mm") -->
+        <label for="startTime">Время начала сеанса:</label>
+        <input type="time" id="startTime" name="startTime" required><br>
+
+        <label for="ticketPrice">Цена билета:</label>
+        <input type="number" id="ticketPrice" name="ticketPrice" required><br>
+
+        <label for="room">Зал:</label>
+        <select id="room" name="room" required>
+            <!-- Здесь добавьте динамически список залов -->
+            <option value="1">Зал 1</option>
+            <option value="2">Зал 2</option>
+            <option value="1">Зал 3</option>
+            <option value="2">Зал 4</option>
+        </select>
+
+        <label for="staff">Сотрудник:</label>
+        <select id="staff" name="staff" required>
+            <!-- Здесь добавьте динамически список сотрудников -->
+            <option value="1">Сотрудник 1</option>
+            <option value="2">Сотрудник 2</option>
+            <option value="3">Сотрудник 3</option>
+        </select>
+
+        <button type="submit">Добавить сессию</button>
+    </form>
+</main>
+
+<footer>
+    <p>&copy; 2024 Кинотеатр. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

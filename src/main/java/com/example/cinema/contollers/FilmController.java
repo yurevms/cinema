@@ -30,7 +30,6 @@ public class FilmController {
     )
     public String getAllFilm(Model model) {
         model.addAttribute("films", filmService.getAllFilms());
-        //model.addAttribute("sessions", sessionService.getAllSessions());
         return "films";
     }
 

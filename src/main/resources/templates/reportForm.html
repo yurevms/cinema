@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчёт по продажам</title>
+    <style>
+        /* Основные стили страницы */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        nav {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            padding: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        input[type="datetime-local"] {
+            padding: 8px;
+            margin: 10px 0;
+            width: 250px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tfoot td {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+
+        tfoot tr {
+            border-top: 2px solid #ddd;
+        }
+
+        #totalRevenue, #adminName, #reportDate {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Отчёт по продажам</h1>
+    <nav>
+        <a href="/films">Главная</a>
+    </nav>
+</header>
+
+<section>
+    <!-- Форма для генерации отчета -->
+    <form id="reportForm" method="post">
+        <label for="startDate">Дата начала:</label>
+        <input type="datetime-local" id="startDate" name="startDate" required><br>
+
+        <label for="endDate">Дата окончания:</label>
+        <input type="datetime-local" id="endDate" name="endDate" required><br>
+
+        <button type="submit">Сформировать отчёт</button>
+    </form>
+
+    <!-- Таблица для отображения отчета -->
+    <table id="salesReportTable">
+        <thead>
+        <tr>
+            <th>Дата продажи</th>
+            <th>Название фильма</th>
+            <th>ID пользователя</th>
+            <th>Стоимость билета</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Данные таблицы будут обновляться динамически -->
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3">Итого:</td>
+            <td id="totalRevenue"></td>
+        </tr>
+        <tr>
+            <td colspan="4" id="adminName"></td>
+        </tr>
+        <tr>
+            <td colspan="4" id="reportDate"></td>
+        </tr>
+        </tfoot>
+    </table>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Функция для форматирования даты в формат yyyy-MM-dd
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяц от 0 до 11, поэтому прибавляем 1
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    $(document).ready(function () {
+        $('#reportForm').on('submit', function (e) {
+            e.preventDefault(); // Предотвращаем стандартное поведение формы
+
+            // Собираем данные формы
+            var formData = $(this).serialize();
+
+            // Отправляем данные формы на сервер через AJAX
+            $.ajax({
+                url: '/reportForm', // URL для обработки данных
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Обновляем таблицу данными из ответа сервера
+                    $('#salesReportTable tbody').empty(); // Очистить текущие строки
+
+                    // Заполняем таблицу новыми данными
+                    response.sales.forEach(function (sale) {
+                        $('#salesReportTable tbody').append(
+                            '<tr>' +
+                            '<td>' + formatDate(sale.saleDate) + '</td>' +  // Форматируем дату продажи
+                            '<td>' + sale.filmTitle + '</td>' +
+                            '<td>' + sale.userId + '</td>' +
+                            '<td>' + sale.ticketPrice + '</td>' +
+                            '</tr>'
+                        );
+                    });
+
+                    // Обновляем итоговую выручку
+                    $('#totalRevenue').text(response.totalRevenue);
+
+                    // Обновляем имя администратора
+                    $('#adminName').text('Отчёт сформирован администратором: ' + response.adminName);
+
+                    // Обновляем дату формирования отчёта
+                    $('#reportDate').text('Дата формирования отчёта: ' + formatDate(response.nowTime)); // Форматируем дату формирования отчёта
+                },
+                error: function () {
+                    alert("Ошибка при обработке запроса.");
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
@@ -27,5 +28,25 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public List<Session> getSessionByFilmAndDate(Film film, LocalDateTime date) {
         return sessionRepository.findByFilmAndDate(film, date);
+    }
+
+    @Override
+    public Session saveSession(Session session) {
+        return sessionRepository.save(session);
+    }
+
+    @Override
+    public List<Session> getAllSessions() {
+        return sessionRepository.findAll();
+    }
+
+    @Override
+    public Session getSessionById(Long id) {
+        return sessionRepository.findById(id).orElseThrow(() -> new RuntimeException("Session not found"));
+    }
+
+    @Override
+    public void deleteSession(Long id) {
+        sessionRepository.deleteById(id);
     }
 }
