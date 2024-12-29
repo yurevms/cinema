@@ -1,39 +1,115 @@
-.dates-slider {
-    display: flex;
-    overflow-x: scroll;
-    padding: 10px;
-}
-
-.dates-slider ul {
-    display: flex;
-    list-style: none;
-}
-
-.dates-slider li {
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.film-details {
+/* Стили для страницы сеансов фильма */
+.film-info {
     display: flex;
     align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .film-image {
-    width: 200px;
-    height: auto;
-    margin-right: 20px;
+    width: 250px;
+    height: 375px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
+.film-info ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.film-info li {
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+
+/* Стили для отображения дат и кнопок */
+.session-dates {
+    margin-top: 40px;
+}
+
+.session-date {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    text-align: center;
+    min-width: 100px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Кнопки времени */
 .session-time-btn {
-    margin: 10px;
     padding: 10px;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
+    text-align: center;
+    width: auto;
+    max-width: 150px;
+    border-radius: 5px;
+    margin-top: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .session-time-btn:hover {
     background-color: #45a049;
+}
+
+.session-date-time {
+    margin-bottom: 20px;
+}
+
+.session-time-container {
+    margin-top: 10px;
+}
+
+/* Заголовки и навигация */
+header {
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+}
+
+header nav {
+    margin-top: 10px;
+}
+
+header nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.session-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Расстояние между кнопками */
+}
+
+.delete-session-btn {
+    background-color: #f44336; /* Красный цвет для удаления */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-session-btn:hover {
+    background-color: #d32f2f; /* Более тёмный красный при наведении */
 }

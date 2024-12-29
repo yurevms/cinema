@@ -29,6 +29,9 @@ public class Film {
     @Column(name = "duration", nullable = false)
     private Integer duration;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @Column(name = "cover_image", nullable = true)
     private String cover_image;  // Путь к изображению
 }

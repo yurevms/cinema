@@ -35,6 +35,7 @@ public class Session {
     @Column(name = "ticket_price", nullable = false)
     private Integer ticketPrice;
 
+    @Column(name = "formattedDate", nullable = true)
     private String formattedDate;
 
     // Связь с залом

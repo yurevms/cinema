@@ -28,8 +28,10 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/static/**", "/css/**", "/js/**", "/img/**",
                                 "/**", "/registration", "/login", "/login/error", "/error",
-                                "/films", "/films/add", "/films/delete/**"
+                                "/films", "/films/add", "/films/delete/**, /session/add, /session",
+                                "/report/**", "/report", "/reportForm"
                         ).permitAll())
+
                 .build();
     }
 
