@@ -12,8 +12,8 @@
     <nav>
         <a href="/login">Войти</a>
         <a href="/registration">Регистрация</a>
-        <a href="/films/add">Добавить фильм</a>
-        <a href="/reportForm">Отчётность</a>
+        <a th:if="${role == 'ROLE_ADMIN'}" href="/films/add">Добавить фильм</a>
+        <a th:if="${role == 'ROLE_ADMIN'}" href="/reportForm">Отчётность</a>
     </nav>
 </header>
 
@@ -28,11 +28,20 @@
                 <p th:text="'Режиссёр: ' + ${film.director}">Режиссёр фильма</p>
                 <p th:text="'Жанр: ' + ${film.genre}">Жанр фильма</p>
                 <p th:text="'Продолжительность: ' + ${film.duration} + ' мин.'">Продолжительность фильма</p>
-                <button th:onclick="|window.location.href='/session/' + ${film.id}|">Просмотр сеансов</button>
+                <button
+                        th:if="${authenticated}"
+                        th:onclick="|window.location.href='/session/' + ${film.id}|">Просмотр сеансов</button>
+
+                <!-- Если пользователь не авторизован, кнопка ведет на страницу входа -->
+                <a th:if="${!authenticated}" href="/login">
+                    <button>Просмотр сеансов</button>
+                </a>
                 <!-- Ссылка для удаления фильма -->
-                <form th:action="@{/films/delete/{id}(id=${film.getId()})}" method="POST">
-                    <button type="submit" class="btn btn-danger">Удалить</button>
-                </form>
+                <div th:if="${role == 'ROLE_ADMIN'}">
+                    <form th:action="@{/films/delete/{id}(id=${film.getId()})}" method="POST">
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>

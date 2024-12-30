@@ -10,6 +10,8 @@ import com.example.cinema.services.RoomService;
 import com.example.cinema.services.SessionService;
 import com.example.cinema.services.StaffService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/session")
@@ -31,7 +34,17 @@ public class SessionController {
     private final StaffService staffService;
 
     @GetMapping("/{id}")
-    public String getFilmSessions(@PathVariable Long id, Model model) {
+    public String getFilmSessions(@PathVariable Long id, Model model, Authentication authentication) {
+
+        boolean authenticated = (authentication != null && authentication.isAuthenticated());
+        model.addAttribute("authenticated", authenticated);
+        String role = "USER"; // По умолчанию роль пользователя
+        if (authentication != null) {
+            role = authentication.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.joining());
+        }
+
         Film film = filmService.getFilmById(id);
         List<Session> sessions = sessionService.getSessionsByFilm(film);
 
@@ -45,6 +58,7 @@ public class SessionController {
             sessionsByDate.computeIfAbsent(formattedDate, k -> new ArrayList<>()).add(session);
         }
 
+        model.addAttribute("role", role);
         model.addAttribute("film", film);
         model.addAttribute("sessionsByDate", sessionsByDate);
         model.addAttribute("filmId", id);

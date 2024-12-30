@@ -1,21 +1,18 @@
 package com.example.cinema.contollers;
 
 import com.example.cinema.models.Film;
-import com.example.cinema.models.Session;
-import com.example.cinema.repositories.FilmRepository;
+
 import com.example.cinema.services.FilmService;
 import com.example.cinema.services.SessionService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -28,7 +25,17 @@ public class FilmController {
             value = "/films",
             method = RequestMethod.GET
     )
-    public String getAllFilm(Model model) {
+    public String getAllFilm(Model model, Authentication authentication) {
+
+        boolean authenticated = (authentication != null && authentication.isAuthenticated());
+        model.addAttribute("authenticated", authenticated);
+        String role = "USER"; // По умолчанию роль пользователя
+        if (authentication != null) {
+            role = authentication.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.joining());
+        }
+        model.addAttribute("role", role);
         model.addAttribute("films", filmService.getAllFilms());
         return "films";
     }

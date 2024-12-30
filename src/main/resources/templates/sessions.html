@@ -13,7 +13,7 @@
         <a href="/login">Войти</a>
         <a href="/registration">Регистрация</a>
         <a href="/films">Главная</a>
-        <a href="/session/add">Добавить сеанс</a>
+        <a th:if="${role == 'ROLE_ADMIN'}" href="/session/add">Добавить сеанс</a>
 
     </nav>
 </header>
@@ -49,7 +49,7 @@
                                 <span th:text="${sessionItem.startTime}"></span>
                             </button>
 
-                            <form th:action="@{/session/{filmId}/{sessionId}/delete(filmId=${film.id}, sessionId=${sessionItem.id})}" method="post" style="display:inline;">
+                            <form th:if="${role == 'ROLE_ADMIN'}" th:action="@{/session/{filmId}/{sessionId}/delete(filmId=${film.id}, sessionId=${sessionItem.id})}" method="post" style="display:inline;">
                                 <button type="submit" class="delete-session-btn">Удалить</button>
                             </form>
 

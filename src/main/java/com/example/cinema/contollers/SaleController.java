@@ -1,11 +1,11 @@
 package com.example.cinema.contollers;
 
-
 import com.example.cinema.models.Session;
+import com.example.cinema.models.User;
 import com.example.cinema.services.SaleService;
 import com.example.cinema.services.SessionService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,15 +28,21 @@ public class SaleController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String formattedDate = session.getDate().format(formatter);
 
+        // Получаем текущего пользователя из SecurityContext и извлекаем ID
+        Long userId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+
         model.addAttribute("formattedDate", formattedDate);
         model.addAttribute("sessionItem", session);
         model.addAttribute("film", session.getFilm());
+        model.addAttribute("userId", userId); // Передаем ID пользователя
+
         return "payment";
     }
 
     // Обработка оплаты
     @PostMapping("/complete")
     public String processPayment(@RequestParam Long userId, @RequestParam Long sessionId) {
+        // Сохраняем данные о платеже в базе данных
         saleService.save(userId, sessionId);
         return "redirect:/films";
     }

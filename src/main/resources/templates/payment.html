@@ -18,10 +18,11 @@
     <p th:text="'Дата: ' + ${formattedDate}"></p>
     <p th:text="'Время: ' + ${sessionItem.startTime}"></p>
     <p th:text="'К оплате: ' + ${sessionItem.ticketPrice} + ' руб.'"></p>
+
+    <!-- Форма оплаты с скрытым полем для ID пользователя -->
     <form th:action="@{/payment/complete}" method="post">
         <input type="hidden" th:value="${sessionItem.id}" name="sessionId">
-        <label for="userId">Введите ID пользователя:</label>
-        <input type="number" id="userId" name="userId" required>
+        <input type="hidden" th:value="${userId}" name="userId"> <!-- Подставляем ID пользователя -->
         <button type="submit">Оплатить</button>
     </form>
 </section>
